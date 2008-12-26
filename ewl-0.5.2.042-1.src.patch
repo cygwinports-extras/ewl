@@ -1,0 +1,110 @@
+--- origsrc/ewl-0.5.2.042/configure.in	2008-01-24 21:00:29.000000000 -0600
++++ src/ewl-0.5.2.042/configure.in	2008-12-26 01:31:53.271750000 -0600
+@@ -125,6 +125,10 @@
+         create_shared_lib="-no-undefined"
+         ewl_evas_engine_default="evas_gl_glew"
+         ;;
++     cygwin*)
++        create_shared_lib="-no-undefined"
++        ewl_evas_engine_default="evas_software_x11"
++        ;;
+      *)
+         ewl_evas_engine_default="evas_software_x11"
+         ;;
+--- origsrc/ewl-0.5.2.042/data/themes/e17/Makefile.am	2007-11-26 06:31:20.000000000 -0600
++++ src/ewl-0.5.2.042/data/themes/e17/Makefile.am	2008-12-25 22:47:42.459250000 -0600
+@@ -50,5 +50,5 @@
+ 
+ SUFFIXES = .edc .edj
+ .edc.edj:
+-	edje_cc -v -id $(top_srcdir)/data/themes/$(*F)/images -fd $(top_srcdir)/data/themes/$(*F) $(top_srcdir)/data/themes/$(*F)/$< $(top_builddir)/data/themes/$(*F)/$(@F)
++	edje_cc -v -id $(top_srcdir)/data/themes/$(*F)/images -fd $(top_srcdir)/data/themes/$(*F) $(top_srcdir)/data/themes/$(*F)/$(<F) $(top_builddir)/data/themes/$(*F)/$(@F)
+ 
+--- origsrc/ewl-0.5.2.042/src/engines/evas_gl_x11/Makefile.am	2007-11-14 23:02:54.000000000 -0600
++++ src/ewl-0.5.2.042/src/engines/evas_gl_x11/Makefile.am	2008-12-25 22:07:38.943625000 -0600
+@@ -19,7 +19,7 @@
+ ewl_engine_evas_gl_x11.c
+ 
+ evas_gl_x11_la_LIBADD = $(top_builddir)/src/lib/libewl.la
+-evas_gl_x11_la_LDFLAGS = -module -version-info @INTERFACE_VERSION@
++evas_gl_x11_la_LDFLAGS = -module @create_shared_lib@ -version-info @INTERFACE_VERSION@
+ evas_gl_x11_la_DEPENDENCIES =
+ 
+ endif
+--- origsrc/ewl-0.5.2.042/src/engines/evas_software_16_x11/Makefile.am	2007-11-14 23:02:54.000000000 -0600
++++ src/ewl-0.5.2.042/src/engines/evas_software_16_x11/Makefile.am	2008-12-25 22:07:52.115500000 -0600
+@@ -19,7 +19,7 @@
+ ewl_engine_evas_software_16_x11.c
+ 
+ evas_software_16_x11_la_LIBADD = $(top_builddir)/src/lib/libewl.la
+-evas_software_16_x11_la_LDFLAGS = -module -version-info @INTERFACE_VERSION@
++evas_software_16_x11_la_LDFLAGS = -module @create_shared_lib@ -version-info @INTERFACE_VERSION@
+ evas_software_16_x11_la_DEPENDENCIES =
+ 
+ endif
+--- origsrc/ewl-0.5.2.042/src/engines/evas_software_x11/Makefile.am	2007-11-14 23:02:54.000000000 -0600
++++ src/ewl-0.5.2.042/src/engines/evas_software_x11/Makefile.am	2008-12-25 22:07:57.412375000 -0600
+@@ -19,7 +19,7 @@
+ ewl_engine_evas_software_x11.c
+ 
+ evas_software_x11_la_LIBADD = $(top_builddir)/src/lib/libewl.la
+-evas_software_x11_la_LDFLAGS = -module -version-info @INTERFACE_VERSION@
++evas_software_x11_la_LDFLAGS = -module @create_shared_lib@ -version-info @INTERFACE_VERSION@
+ evas_software_x11_la_DEPENDENCIES =
+ 
+ endif
+--- origsrc/ewl-0.5.2.042/src/engines/evas_software_xcb/Makefile.am	2007-11-07 12:02:45.000000000 -0600
++++ src/ewl-0.5.2.042/src/engines/evas_software_xcb/Makefile.am	2008-12-25 22:08:03.006125000 -0600
+@@ -19,7 +19,7 @@
+ 	ewl_engine_evas_software_xcb.c
+ 
+ evas_software_xcb_la_LIBADD = $(top_builddir)/src/lib/libewl.la
+-evas_software_xcb_la_LDFLAGS = -module -version-info @INTERFACE_CURRENT@:@INTERFACE_REVISION@:@INTERFACE_AGE@ \
++evas_software_xcb_la_LDFLAGS = -module @create_shared_lib@ -version-info @INTERFACE_CURRENT@:@INTERFACE_REVISION@:@INTERFACE_AGE@ \
+ 		-L$(top_builddir)/src/lib \
+ 		-L$(top_builddir)/src/lib/.libs
+ evas_software_xcb_la_DEPENDENCIES =
+--- origsrc/ewl-0.5.2.042/src/engines/evas_xrender_x11/Makefile.am	2007-11-14 23:02:54.000000000 -0600
++++ src/ewl-0.5.2.042/src/engines/evas_xrender_x11/Makefile.am	2008-12-25 22:08:07.521750000 -0600
+@@ -19,7 +19,7 @@
+ ewl_engine_evas_xrender_x11.c
+ 
+ evas_xrender_x11_la_LIBADD = $(top_builddir)/src/lib/libewl.la
+-evas_xrender_x11_la_LDFLAGS = -module -version-info @INTERFACE_VERSION@
++evas_xrender_x11_la_LDFLAGS = -module @create_shared_lib@ -version-info @INTERFACE_VERSION@
+ evas_xrender_x11_la_DEPENDENCIES =
+ 
+ endif
+--- origsrc/ewl-0.5.2.042/src/engines/x11/Makefile.am	2007-11-14 23:02:54.000000000 -0600
++++ src/ewl-0.5.2.042/src/engines/x11/Makefile.am	2008-12-25 22:08:19.693625000 -0600
+@@ -18,7 +18,7 @@
+ ewl_engine_x11.c
+ 
+ x11_la_LIBADD = $(top_builddir)/src/lib/libewl.la
+-x11_la_LDFLAGS = -module -version-info @INTERFACE_VERSION@
++x11_la_LDFLAGS = -module @create_shared_lib@ -version-info @INTERFACE_VERSION@
+ x11_la_DEPENDENCIES =
+ 
+ endif
+--- origsrc/ewl-0.5.2.042/src/engines/xcb/Makefile.am	2007-11-07 12:01:30.000000000 -0600
++++ src/ewl-0.5.2.042/src/engines/xcb/Makefile.am	2008-12-25 22:08:25.787375000 -0600
+@@ -19,7 +19,7 @@
+ 	ewl_engine_xcb.c
+ 
+ xcb_la_LIBADD = $(top_builddir)/src/lib/libewl.la
+-xcb_la_LDFLAGS = -module -version-info @INTERFACE_CURRENT@:@INTERFACE_REVISION@:@INTERFACE_AGE@ \
++xcb_la_LDFLAGS = -module @create_shared_lib@ -version-info @INTERFACE_CURRENT@:@INTERFACE_REVISION@:@INTERFACE_AGE@ \
+ 		-L$(top_builddir)/src/lib \
+ 		-L$(top_builddir)/src/lib/.libs
+ xcb_la_DEPENDENCIES =
+--- origsrc/ewl-0.5.2.042/src/lib/ewl_engines.c	2007-12-06 01:43:40.000000000 -0600
++++ src/ewl-0.5.2.042/src/lib/ewl_engines.c	2008-12-25 22:01:12.381125000 -0600
+@@ -6,7 +6,7 @@
+ 
+ #define EWL_ENGINE_DIR "engines"
+ 
+-#ifdef _WIN32
++#if defined(_WIN32) || defined(__CYGWIN__)
+ # define EWL_ENGINE_EXT ".dll"
+ #else
+ # define EWL_ENGINE_EXT ".so"
